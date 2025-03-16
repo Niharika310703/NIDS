@@ -1,0 +1,77 @@
+/* Full-screen video background */
+#bg-video {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+    object-fit: cover;
+    z-index: -1;
+}
+
+/* Centering content */
+.content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    background: rgba(0, 0, 0, 0.3); /* Dark transparent background */
+    color: white;
+    padding: 30px;
+    border-radius: 10px;
+    width: 65%;
+}
+
+/* Styling for headings */
+h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+h2 {
+    font-size: 1.8em;
+    margin-top: 20px;
+}
+
+/* Styling for paragraphs */
+p {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+}
+
+/* List styling */
+ul {
+    text-align: left;
+    list-style-type: none;
+    padding: 0;
+}
+
+ul li {
+    font-size: 1.2em;
+    margin: 15px 10PX;
+}
+
+/* Styled button */
+button {
+    background: #ff6600;
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2em;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 20px;
+}
+
+/* Button hover effect */
+button:hover {
+    background: #cc5500;
+}
+
+/* Remove link underline */
+a {
+    text-decoration: none;
+}

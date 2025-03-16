@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intrusion Detection System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='index_style.css') }}">
+</head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/python.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/powershell.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/cmd.min.js"></script>
+
+<script>
+  hljs.highlightAll();
+</script>
+
+<body>
+    <video autoplay muted loop id="bg-video">
+        <source src="{{ url_for('static', filename='background1.mp4') }}" type="video/mp4">
+    </video>
+
+    <div class="content">
+        <h1>Welcome to the Intrusion Detection System</h1>
+        <p>This system detects malicious network activities and helps prevent security breaches.</p>
+
+        <h2>Types of Attacks Detected:</h2>
+        <ul>
+            <li><strong>Benign:</strong> Normal network traffic that does not pose a security threat.</li>
+            <li><strong>Fuzzers:</strong> Automated tools that send unexpected inputs to find vulnerabilities.</li>
+            <li><strong>Exploits:</strong> Attacks that take advantage of software vulnerabilities to gain control.</li>
+            <li><strong>Backdoor:</strong> Hidden access points used by attackers to bypass authentication.</li>
+            <li><strong>Generic:</strong> Broad-spectrum attacks that target encryption and authentication mechanisms.</li>
+            <li><strong>DoS (Denial of Service):</strong> Overwhelming network traffic to disrupt services.</li>
+            <li><strong>Reconnaissance:</strong> Scanning and gathering information about a system to identify weak points.</li>
+            <li><strong>Shellcode:</strong> Malicious payloads executed to gain unauthorized system control.</li>
+            <li><strong>Analysis:</strong> Suspicious activities that indicate potential exploitation attempts.</li>
+            <li><strong>Worms:</strong> Self-replicating malware that spreads across networks and systems.</li>
+        </ul>
+
+        <a href="{{ url_for('predict_page') }}"><button>Go to Prediction</button></a>
+    </div>
+</body>
+</html>

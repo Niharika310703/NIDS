@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intrusion Detection Prediction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/python.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/powershell.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/languages/cmd.min.js"></script>
+
+<script>
+  hljs.highlightAll();
+</script>
+
+<body>
+    <video autoplay muted loop id="bg-video">
+        <source src="{{ url_for('static', filename='background2.mp4') }}" type="video/mp4">
+    </video>
+    <h1>Enter Feature Values for Prediction</h1>
+    <form id="predictionForm">
+        <div class="form-grid">
+            <label>Source port number:</label> <input type="text" name="feature1" required>
+            <label>Destination port number:</label> <input type="text" name="feature2" required>
+            <label>TCP:</label> <input type="text" name="feature3" required>
+
+            <label>Layer 7 Protocol (HTTP):</label> <input type="text" name="feature4" required>
+            <label>Incoming bytes:</label> <input type="text" name="feature5" required>
+            <label>Outgoing bytes:</label> <input type="text" name="feature6" required>
+
+            <label>Incoming packets:</label> <input type="text" name="feature7" required>
+            <label>Outgoing packets:</label> <input type="text" name="feature8" required>
+            <label>Flow duration in ms:</label> <input type="text" name="feature9" required>
+
+            <label>Flags like SYN, ACK:</label> <input type="text" name="feature10" required>
+            <label>Client side TCP flags:</label> <input type="text" name="feature11" required>
+            <label>Server side TCP flags:</label> <input type="text" name="feature12" required>
+
+            <label>Client to server stream duration:</label> <input type="text" name="feature13" required>
+            <label>Server to client stream duration:</label> <input type="text" name="feature14" required>
+            <label>Minimum flow TTL:</label> <input type="text" name="feature15" required>
+
+            <label>Maximum flow TTL:</label> <input type="text" name="feature16" required>
+            <label>Longest packet length:</label> <input type="text" name="feature17" required>
+            <label>Shortest packet length:</label> <input type="text" name="feature18" required>
+
+            <label>Smallest IP packet length:</label> <input type="text" name="feature19" required>
+            <label>Largest IP packet length:</label> <input type="text" name="feature20" required>
+            <label>Source to destination bytes/sec:</label> <input type="text" name="feature21" required>
+
+            <label>Destination to source bytes/sec:</label> <input type="text" name="feature22" required>
+            <label>Retransmitted bytes src → dst:</label> <input type="text" name="feature23" required>
+            <label>Retransmitted packets src → dst:</label> <input type="text" name="feature24" required>
+
+            <label>Retransmitted bytes dst → src:</label> <input type="text" name="feature25" required>
+            <label>Retransmitted packets dst → src:</label> <input type="text" name="feature26" required>
+            <label>Source to destination avg throughput:</label> <input type="text" name="feature27" required>
+
+            <label>Destination to source avg throughput:</label> <input type="text" name="feature28" required>
+            <label>Packets of size ≤ 128 bytes:</label> <input type="text" name="feature29" required>
+            <label>Packets size > 128 ≤ 256 bytes:</label> <input type="text" name="feature30" required>
+
+            <label>Packets size > 256 ≤ 512 bytes:</label> <input type="text" name="feature31" required>
+            <label>Packets size > 512 ≤ 1024 bytes:</label> <input type="text" name="feature32" required>
+            <label>Packets size > 1024 ≤ 1514 bytes:</label> <input type="text" name="feature33" required>
+
+            <label>Maximum TCP window size in bytes src → dst:</label> <input type="text" name="feature34" required>
+            <label>Maximum TCP window size dst → src:</label> <input type="text" name="feature35" required>
+            <label>ICMP type code:</label> <input type="text" name="feature36" required>
+
+            <label>ICMP IPv4 type:</label> <input type="text" name="feature37" required>
+            <label>DNS TTL of the first answer:</label> <input type="text" name="feature38" required>
+            <label>Flow start timestamp in ms:</label> <input type="text" name="feature39" required>
+
+            <label>Flow end timestamp in ms:</label> <input type="text" name="feature40" required>
+            <label>Min Inter-Packet Arrival Time src → dst:</label> <input type="text" name="feature41" required>
+            <label>Max Inter-Packet Arrival Time src → dst:</label> <input type="text" name="feature42" required>
+
+            <label>Average Inter-Packet Arrival Time src → dst:</label> <input type="text" name="feature43" required>
+            <label>Standard deviation of Inter-Packet Arrival Time src → dst:</label> <input type="text" name="feature44" required>
+            <label>Min Inter-Packet Arrival Time dst → src:</label> <input type="text" name="feature45" required>
+
+            <label>Max Inter-Packet Arrival Time dst → src:</label> <input type="text" name="feature46" required>
+            <label>Average Inter-Packet Arrival Time dst → src:</label> <input type="text" name="feature47" required>
+            <label>Standard deviation of Inter-Packet Arrival Time dst → src:</label> <input type="text" name="feature48" required>
+        </div>
+
+        <div class="button-container">
+            <button type="submit">Predict</button>
+        </div>
+        <div id="result"></div> 
+    </form>
+    <script>
+        document.getElementById('predictionForm').addEventListener("submit", function(event) {
+    event.preventDefault(); // Prevent page refresh
+
+    let formData = new FormData(this);
+
+    fetch("{{ url_for('predict') }}", {
+        method: "POST",
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log("Server Response:", data); // Debugging in Console
+        let resultDiv = document.getElementById("result");
+        resultDiv.innerHTML = ""; // Clear previous result
+
+        if (data.error) {
+            alert("❌ Error: " + data.error);
+            resultDiv.innerHTML = `<p style="color: red; font-weight: bold;">❌ ${data.error}</p>`;
+        } else if (data.result) {  // Ensure 'result' exists
+            if (data.result === "Benign") {
+                alert("✅ Normal! Redirecting...");
+                window.location.href = "/";  // Redirect to index.html
+            } else {
+                alert("⚠️ Alert! " + data.result);  // Show alert for attacks
+                resultDiv.innerHTML = `<p style="color: red; font-weight: bold;">⚠️ ${data.result}</p>`;
+                window.location.href = "/";  // Redirect to index.html after showing alert
+            }
+        } else {
+            alert("❌ Unexpected Error: No valid result received!");
+        }
+    })
+    .catch(error => console.error("Fetch Error:", error));
+});
+
+    </script>
+    
+</body>
+
+</html>
